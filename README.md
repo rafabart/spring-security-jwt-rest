@@ -11,17 +11,18 @@ Usando:
 * Gradle
 * H2 Database em Memória
 
-Este projeto é uma poc com Spring Security e Jwt para Web como microserviço. Possui um crud da entidade Usuário.
+Este projeto é uma poc com Spring Security e Jwt para Web como microserviço. Possui um crud da entidade Usuário
+com uma lista de regras de acesso por login.
 
 Ao subir a primeira vez o projeto, um usuário Adminstrador é criado para o primeiro acesso:
 ```
-  Login: admin
+  Usuario: admin
   Senha: admin
 ```
 JSON para requisistar acesso:
 ```
 {
-  "login":"admin",
+  "username":"admin",
   "password":"admin"
 }
 ```
