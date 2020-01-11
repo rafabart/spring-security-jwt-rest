@@ -1,7 +1,8 @@
 Projeto demo da incubadora. Spring Security com JWT.
 
 Usando:
-
+* Spring Security
+* JWT
 * JDK 11
 * Springboot 2.2.1
 * IntelliJ
