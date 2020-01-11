@@ -37,14 +37,12 @@ public class LoginServiceImpl implements LoginService {
             );
 
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            throw new Exception("Username e/ou senha inválidos!");
         }
 
 
         final UserDetails userDetails = customerService.loadUserByUsername(loginRequest.getUsername());
 
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-
-        return jwt;
+        return jwtTokenUtil.generateToken(userDetails);
     }
 }

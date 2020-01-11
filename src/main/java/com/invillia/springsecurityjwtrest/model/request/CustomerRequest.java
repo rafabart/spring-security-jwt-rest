@@ -5,7 +5,7 @@ import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Data
@@ -16,20 +16,19 @@ public class CustomerRequest {
 
     private Long id;
 
-    @NonNull
-    @NotBlank
+    @NotNull(message = "O campo 'Nome' não pode estar vazio!")
+    @NotBlank(message = "O campo 'Nome' não pode estar em branco!")
     private String name;
 
-    @NonNull
-    @NotBlank
+    @NotNull(message = "O campo 'Username' não pode estar vazio!")
+    @NotBlank(message = "O campo 'Username' não pode estar em branco!")
     private String username;
 
-    @NonNull
-    @NotBlank
+    @NotNull(message = "O campo 'Senha' não pode estar vazio!")
+    @NotBlank(message = "O campo 'Senha' não pode estar em branco!")
     private String password;
 
-    @NonNull
-    @NotBlank
+
     private Set<Role> roles;
 
 

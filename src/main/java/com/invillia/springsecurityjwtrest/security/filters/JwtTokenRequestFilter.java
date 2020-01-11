@@ -2,9 +2,7 @@ package com.invillia.springsecurityjwtrest.security.filters;
 
 import com.invillia.springsecurityjwtrest.security.JwtTokenUtil;
 import com.invillia.springsecurityjwtrest.service.CustomerService;
-import com.invillia.springsecurityjwtrest.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

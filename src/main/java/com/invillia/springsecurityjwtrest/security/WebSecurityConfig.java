@@ -45,8 +45,10 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/**").permitAll().
+        httpSecurity
+                .csrf().disable()
+                .cors().disable()
+                .authorizeRequests().antMatchers("/login").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -59,6 +61,6 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/h2-console/**").permitAll();
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
-*/
+        */
     }
 }

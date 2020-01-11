@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,8 +31,36 @@ public class CustomerResouce {
     }
 
 
+    @GetMapping("{id}")
+    public ResponseEntity<?> findByid(@PathVariable("id") final Long id) {
+
+        CustomerResponse customerResponse = customerService.findById(id);
+
+        return ResponseEntity.ok(customerResponse);
+    }
+
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
+
+        customerService.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> update(@Valid @PathVariable("id") final Long id,
+                                    @RequestBody final CustomerRequest customerRequest) {
+
+        customerService.update(id, customerRequest);
+
+        return ResponseEntity.ok().build();
+    }
+
+
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody final CustomerRequest customerRequest) {
+    public ResponseEntity<?> create(@Valid @RequestBody final CustomerRequest customerRequest) {
 
         customerService.save(customerRequest);
 

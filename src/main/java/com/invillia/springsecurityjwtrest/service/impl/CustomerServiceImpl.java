@@ -1,5 +1,7 @@
 package com.invillia.springsecurityjwtrest.service.impl;
 
+import com.invillia.springsecurityjwtrest.exception.CustomerNotFoundException;
+import com.invillia.springsecurityjwtrest.exception.UsernameException;
 import com.invillia.springsecurityjwtrest.mapper.CustomerMapper;
 import com.invillia.springsecurityjwtrest.model.response.CustomerResponse;
 import com.invillia.springsecurityjwtrest.model.entity.Customer;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService, UserDetailsService {
@@ -35,15 +38,26 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
     public void save(final CustomerRequest customerRequest) {
 
-        final Customer customer = customerMapper.CustomerRequestToCustomer(customerRequest);
+        final Optional<Customer> customerByUsername = customerRepository.findByUsername(customerRequest.getUsername());
 
-        customerRepository.save(customer);
+        if (customerByUsername.isEmpty()) {
+
+            final Customer customer = customerMapper.CustomerRequestToCustomer(customerRequest);
+
+            customerRepository.save(customer);
+
+        } else {
+            throw new UsernameException(customerByUsername.get().getUsername());
+        }
+
     }
 
 
     public void update(final Long id, final CustomerRequest customerRequest) {
 
-        Customer customer = customerRepository.findById(id).get();
+        final Customer customer = customerRepository.findById(id).orElseThrow(
+                () -> new CustomerNotFoundException(id)
+        );
 
         customerMapper.UpdateCustomerWithCustomerRequest(customer, customerRequest);
 
@@ -53,7 +67,9 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
     public void delete(final Long id) {
 
-        final Customer customer = customerRepository.findById(id).get();
+        final Customer customer = customerRepository.findById(id).orElseThrow(
+                () -> new CustomerNotFoundException(id)
+        );
 
         customerRepository.delete(customer);
     }
@@ -61,7 +77,9 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
     public CustomerResponse findById(final Long id) {
 
-        final Customer customer = customerRepository.findById(id).get();
+        final Customer customer = customerRepository.findById(id).orElseThrow(
+                () -> new CustomerNotFoundException(id)
+        );
 
         return customerMapper.CustomerToCustomerResponse(customer);
     }
@@ -77,10 +95,10 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
-        final Customer customer = customerRepository.findByUsername(username).get();
+        final Customer customer = customerRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("Username não encontrado: " + username)
+        );
 
-        User user = new User(customer.getUsername(), customer.getPassword(), customer.getAuthorities());
-
-        return user;
+        return new User(customer.getUsername(), customer.getPassword(), customer.getAuthorities());
     }
 }

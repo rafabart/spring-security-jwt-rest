@@ -22,7 +22,6 @@ public class CustomerMapper {
 
 
     public void UpdateCustomerWithCustomerRequest(Customer customer, final CustomerRequest customerRequest) {
-        customer.setId(customerRequest.getId());
         customer.setName(customerRequest.getName());
         customer.setUsername(customerRequest.getUsername());
         customer.setPassword(customerRequest.getPassword());

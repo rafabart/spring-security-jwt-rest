@@ -27,6 +27,6 @@ public class LoginResource {
 
         return ResponseEntity.ok()
                 .header("Authorization", token)
-                .body("Custom header set");
+                .body("Authorization " + token);
     }
 }
