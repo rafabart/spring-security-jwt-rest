@@ -7,7 +7,6 @@ import com.invillia.springsecurityjwtrest.model.response.CustomerResponse;
 import com.invillia.springsecurityjwtrest.model.entity.Customer;
 import com.invillia.springsecurityjwtrest.model.request.CustomerRequest;
 import com.invillia.springsecurityjwtrest.repository.CustomerRepository;
-import com.invillia.springsecurityjwtrest.repository.RoleRepository;
 import com.invillia.springsecurityjwtrest.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -24,14 +23,11 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
     final private CustomerRepository customerRepository;
 
-    final private RoleRepository roleRepository;
-
     final private CustomerMapper customerMapper;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, RoleRepository roleRepository, CustomerMapper customerMapper) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
-        this.roleRepository = roleRepository;
         this.customerMapper = customerMapper;
     }
 
@@ -55,13 +51,23 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
     public void update(final Long id, final CustomerRequest customerRequest) {
 
-        final Customer customer = customerRepository.findById(id).orElseThrow(
-                () -> new CustomerNotFoundException(id)
-        );
+        final String username = customerRequest.getUsername();
 
-        customerMapper.UpdateCustomerWithCustomerRequest(customer, customerRequest);
+        final Optional<Customer> customerByUsername = customerRepository.findByUsername(username);
 
-        customerRepository.save(customer);
+        if (customerByUsername.isEmpty() || customerByUsername.get().getUsername().equals(username)) {
+
+            final Customer customer = customerRepository.findById(id).orElseThrow(
+                    () -> new CustomerNotFoundException(id)
+            );
+
+            customerMapper.UpdateCustomerWithCustomerRequest(customer, customerRequest);
+
+            customerRepository.save(customer);
+
+        } else {
+            throw new UsernameException(customerByUsername.get().getUsername());
+        }
     }
 
 
@@ -91,6 +97,7 @@ public class CustomerServiceImpl implements CustomerService, UserDetailsService 
 
         return customerMapper.CustomerListToCustomerResponseList(customers);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {

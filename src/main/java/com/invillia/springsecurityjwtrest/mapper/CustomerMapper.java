@@ -16,16 +16,19 @@ public class CustomerMapper {
                 .name(customerRequest.getName())
                 .username(customerRequest.getUsername())
                 .password(customerRequest.getPassword())
-                .roles(customerRequest.getRoles())
+                .enabled(customerRequest.isEnabled())
+                .authorities(customerRequest.getAuthorities())
                 .build();
     }
 
 
     public void UpdateCustomerWithCustomerRequest(Customer customer, final CustomerRequest customerRequest) {
+        customer.setId(customerRequest.getId());
         customer.setName(customerRequest.getName());
         customer.setUsername(customerRequest.getUsername());
         customer.setPassword(customerRequest.getPassword());
-        customer.setRoles(customerRequest.getRoles());
+        customer.setEnabled(customerRequest.isEnabled());
+        customer.setAuthorities(customerRequest.getAuthorities());
     }
 
 
@@ -33,9 +36,10 @@ public class CustomerMapper {
         return CustomerResponse.builder()
                 .id(customer.getId())
                 .name(customer.getName())
-                .username(customer.getName())
+                .username(customer.getUsername())
                 .password(customer.getPassword())
-                .roles(customer.getRoles())
+                .enabled(customer.isEnabled())
+                .authorities(customer.getAuthorities())
                 .build();
     }
 

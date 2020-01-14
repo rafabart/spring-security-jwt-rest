@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 
 @Data
@@ -32,33 +30,19 @@ public class Customer implements Serializable, UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private boolean accountNonExpired;
+
+    @Column(nullable = false)
+    private boolean accountNonLocked;
+
+    @Column(nullable = false)
+    private boolean credentialsNonExpired;
+
+    @Column(nullable = false)
+    private boolean enabled;
+
     /* Regras de acesso do usuário */
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+    private Set<Authority> authorities;
 }

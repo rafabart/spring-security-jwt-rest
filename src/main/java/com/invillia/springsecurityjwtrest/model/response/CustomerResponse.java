@@ -1,12 +1,11 @@
 package com.invillia.springsecurityjwtrest.model.response;
 
-import com.invillia.springsecurityjwtrest.model.entity.Role;
+import com.invillia.springsecurityjwtrest.model.entity.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,5 +22,7 @@ public class CustomerResponse {
 
     private String password;
 
-    private Set<Role> roles;
+    private boolean enabled;
+
+    private Set<Authority> authorities;
 }
