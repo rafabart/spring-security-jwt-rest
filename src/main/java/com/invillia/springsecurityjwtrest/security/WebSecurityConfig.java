@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.annotation.WebServlet;
-
 @EnableWebSecurity
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -30,6 +28,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
+    /*
+    Configura a criptografia que sera usada na senha do usuário!
+    */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -40,6 +41,11 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    /*
+    Configura os tipos de acesso aos andpoints, isto é, quais teram acesso livre
+    e quais passatam por um filtro de verificação de autenticação(JWT).
+    */
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {

@@ -5,6 +5,7 @@ import com.invillia.springsecurityjwtrest.model.response.CustomerResponse;
 import com.invillia.springsecurityjwtrest.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class CustomerResouce {
 
 
     @GetMapping
+    @Secured("ROLE_FIND")
     public ResponseEntity<?> findAll() {
 
         List<CustomerResponse> customerResponses = customerService.findAll();
@@ -32,6 +34,7 @@ public class CustomerResouce {
 
 
     @GetMapping("{id}")
+    @Secured("ROLE_FIND")
     public ResponseEntity<?> findByid(@PathVariable("id") final Long id) {
 
         CustomerResponse customerResponse = customerService.findById(id);
@@ -41,6 +44,7 @@ public class CustomerResouce {
 
 
     @DeleteMapping("{id}")
+    @Secured("ROLE_DELETE")
     public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
 
         customerService.delete(id);
@@ -50,6 +54,7 @@ public class CustomerResouce {
 
 
     @PutMapping("{id}")
+    @Secured("ROLE_UPDATE")
     public ResponseEntity<?> update(@Valid @PathVariable("id") final Long id,
                                     @RequestBody final CustomerRequest customerRequest) {
 
@@ -60,6 +65,7 @@ public class CustomerResouce {
 
 
     @PostMapping
+    @Secured("ROLE_SAVE")
     public ResponseEntity<?> create(@Valid @RequestBody final CustomerRequest customerRequest) {
 
         customerService.save(customerRequest);

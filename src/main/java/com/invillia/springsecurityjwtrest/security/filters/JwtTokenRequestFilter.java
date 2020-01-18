@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*
+    Filtro que verifica se existe um token JWT e extraí as informações dele:
+    usuário e autorizações
+*/
 @Component
 public class JwtTokenRequestFilter extends OncePerRequestFilter {
 

@@ -44,7 +44,8 @@ public class DataInitializer implements CommandLineRunner {
                             .username("admin")
                             .password("admin")
                             .enabled(true)
-                            .authorities(new HashSet<Authority>(Arrays.asList(roleSave, roleUpdate, roleDelete, roleFind)))
+                            .authorities(new HashSet<Authority>(Arrays.asList(
+                                    roleSave, roleUpdate, roleDelete, roleFind)))
                             .build()
             );
 

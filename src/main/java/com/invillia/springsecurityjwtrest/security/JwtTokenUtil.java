@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+/*
+    Gera e valida o JWT e extrai as informações dele.
+*/
 @Service
 public class JwtTokenUtil {
 
